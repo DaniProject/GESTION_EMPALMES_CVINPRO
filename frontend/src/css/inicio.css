@@ -1,0 +1,41 @@
+.navbar{
+    background: #00a2ff; ;
+    width: 100%; 
+    font-size:20px; 
+    z-index:9999;
+}
+.imgLogo{
+    width: 120px;
+    height: 70px;
+    margin: 0px 0px 0px 0px;
+}
+.table-cell {
+    max-width: 150px; /* Ajusta este valor según tus necesidades */
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.table tbody tr.firmado td {
+    background-color: #d4edda !important;
+}
+  
+.table tbody tr.pendiente td {
+    background-color: #fff3cd !important;
+    font-weight: bold;
+}
+
+.modal-content {
+    width: 80%;               /* Ancho del modal */
+    max-width: 600px;         /* Ancho máximo del modal */
+    position: fixed;          /* Se queda fija en pantalla */
+    top: 50%;                 /* Posiciona al centro vertical */
+    left: 50%;                /* Posiciona al centro horizontal */
+    transform: translate(-50%, -50%); /* Ajusta el centro */
+    z-index: 9999;            /* Altísimo z-index para estar por encima de todo */
+    background: white;        /* Fondo blanco o el que desees */
+    padding: 20px;            /* Espaciado interno */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra opcional */
+    border-radius: 8px;       /* Bordes redondeados opcional */
+  }
+
+  
