@@ -6,6 +6,7 @@ dotenv.config();
 
 // Crear el pool de conexiones
 const pool = mysql.createPool({ 
+    uri: process.env.MYSQL_URL,
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
