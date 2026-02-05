@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors'); // Importar cors 
+const pool = require('./config/db');
 
 // Configuración inicial
 dotenv.config(); // Cargar variables de entorno
@@ -18,7 +19,14 @@ app.use(cors({
     origin: 'http://localhost:3000'
 }));
 
-
+(async () => {
+  try {
+    const [rows] = await pool.query('SELECT 1');
+    console.log('✅ Conectado a MySQL correctamente');
+  } catch (err) {
+    console.error('❌ Error BD:', err);
+  }
+})();
 // Importar rutas
 const usuariosRoutes = require('./modules/usuarios');
 const napsRoutes = require('./modules/naps_frm'); // Importar la ruta de Naps
@@ -43,6 +51,7 @@ app.listen(PORT, () => {
     console.log('██║     ██╔══██║██╔══██╗██║     ██╔══╝  ╚██╗ ██╔╝██║╚════██║██║██║   ██║██║╚██╗██║');
     console.log('╚██████╗██║  ██║██████╔╝███████╗███████╗ ╚████╔╝ ██║███████║██║╚██████╔╝██║ ╚████║');
     console.log(' ╚═════╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝  ╚═══╝  ╚═╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝');
-    console.log(`-------------------------SISTEMA DE GESTION DE CONTRATOS--------------------------`);
+    console.log(`-------------------------SISTEMA DE GESTION DE C00NTRATOS--------------------------`);
     console.log(`---> Servidor iniciado en el puerto ${PORT}`);
 });
+
