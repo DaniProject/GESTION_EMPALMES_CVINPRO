@@ -6,7 +6,7 @@ import Inicio from "./components/inicio";
 
 const App = () =>{
   return (
-    <Router>
+    <Router basename="/GESTION_EMPALMES_CVINPRO">
       <Routes>
         <Route path="/login" component={Login}/>
         <Route path="/inicio" element={<Inicio />} />
