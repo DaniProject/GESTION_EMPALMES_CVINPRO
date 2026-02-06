@@ -30,12 +30,29 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const { id_nap, puerto, potencia_abn, id_abonado, observaciones } = req.body;
 
+    // Validate required fields
+    if (!id_nap || !puerto || !potencia_abn || !id_abonado) {
+        return res.status(400).json({ 
+            error: 'Faltan campos requeridos: id_nap, puerto, potencia_abn, id_abonado' 
+        });
+    }
+
+    // Get token from Authorization header
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ error: 'Token no proporcionado' });
+    }
+
     try {
+        // Decode token to get user id
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'tu_clave_secreta');
+        const id_usuario = decoded.id_usuario || decoded.id;
+
         const query = `
-            INSERT INTO empalmes (id_nap, puerto, potencia_abn, id_abonado, observaciones)
-            VALUES (?, ?, ?, ?, ?);
+            INSERT INTO empalmes (id_nap, puerto, potencia_abn, id_abonado, observaciones, id_usuario)
+            VALUES (?, ?, ?, ?, ?, ?);
         `;
-        const [result] = await db.query(query, [id_nap, puerto, potencia_abn, id_abonado, observaciones]);
+        const [result] = await db.query(query, [id_nap, puerto, potencia_abn, id_abonado, observaciones, id_usuario]);
 
         const newEmpalme = {
             id_empalme: result.insertId,
@@ -43,13 +60,24 @@ router.post('/', async (req, res) => {
             puerto,
             potencia_abn,
             id_abonado,
-            observaciones
+            observaciones,
+            id_usuario
         };
 
         res.status(201).json(newEmpalme);
     } catch (err) {
         console.error('Error al guardar el empalme:', err);
-        res.status(500).json({ error: 'Error al guardar el empalme' });
+        
+        // Provide more specific error messages
+        if (err.code === 'ER_NO_REFERENCED_ROW_2') {
+            res.status(400).json({ error: 'NAP o Abonado no existe' });
+        } else if (err.code === 'ER_DUP_ENTRY') {
+            res.status(400).json({ error: 'Este empalme ya existe' });
+        } else if (err.name === 'JsonWebTokenError') {
+            res.status(401).json({ error: 'Token inválido' });
+        } else {
+            res.status(500).json({ error: 'Error al guardar el empalme: ' + err.message });
+        }
     }
 });
 

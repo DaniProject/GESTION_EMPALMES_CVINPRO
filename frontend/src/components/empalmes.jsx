@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../css/inicio.css";
+import axiosInstance from '../api/axiosConfig';
 
 const Empalmes = () => {
   const navigate = useNavigate();
@@ -32,12 +33,9 @@ const Empalmes = () => {
 
     const fetchEmpalmes = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/empalmes");
-        if (!response.ok) {
-          throw new Error("Error al obtener los datos de empalmes");
-        }
-        const data = await response.json();
-        setEmpalmes(data);
+        const response = await axiosInstance.get('/api/empalmes');
+        setEmpalmes(response.data);
+
       } catch (err) {
         console.error(err);
         setError("Error al cargar los datos de empalmes");
@@ -46,9 +44,8 @@ const Empalmes = () => {
 
     const fetchNaps = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/naps");
-        const data = await response.json();
-        setNaps(data);
+        const response = await axiosInstance.get('/api/naps');
+        setNaps(response.data);
       } catch (error) {
         console.error("Error cargando NAPs:", error);
       }
@@ -56,9 +53,8 @@ const Empalmes = () => {
 
     const fetchAbonados = async () => {
         try {
-          const response = await fetch("http://localhost:5000/api/abonados"); // 👈 ruta para abonados
-          const data = await response.json();
-          setAbonados(data);
+          const response = await axiosInstance.get('/api/abonados'); // 👈 ruta para abonados
+          setAbonados(response.data);
         } catch (error) {
           console.error("Error cargando abonados:", error);
         }
@@ -75,34 +71,36 @@ const Empalmes = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:5000/api/empalmes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newEmpalme),
-      });
+  e.preventDefault();
 
-      if (!response.ok) {
-        throw new Error("Error al guardar el empalme");
-      }
+  // Validate all required fields
+  if (!newEmpalme.id_nap || !newEmpalme.puerto || !newEmpalme.potencia_abn || !newEmpalme.id_abonado) {
+    setError("Por favor completa todos los campos requeridos");
+    return;
+  }
 
-      const savedEmpalme = await response.json();
-      setEmpalmes([...empalmes, savedEmpalme]);
-      setNewEmpalme({
-        id_nap: "",
-        puerto: "",
-        potencia_abn: "",
-        id_abonado: "",
-        observaciones: "",
-      });
-    } catch (err) {
-      console.error(err);
-      setError("Error al guardar el empalme");
-    }
-  };
+  try {
+    const response = await axiosInstance.post('/api/empalmes', newEmpalme);
+
+    const savedEmpalme = response.data;
+
+    setEmpalmes([...empalmes, savedEmpalme]);
+
+    setNewEmpalme({
+      id_nap: "",
+      puerto: "",
+      potencia_abn: "",
+      id_abonado: "",
+      observaciones: "",
+    });
+
+    setError(null);
+
+  } catch (err) {
+    console.error(err);
+    setError(err.response?.data?.error || "Error al guardar el empalme");
+  }
+};
 
   return (
     <div>
@@ -113,11 +111,11 @@ const Empalmes = () => {
         className="btn btn-primary mb-3" 
         data-bs-toggle="modal" 
         data-bs-target="#empalmeModal"
+        onClick={() => setError(null)}
         >
             Agregar Empalme
         </button>
       </div>
-      {error && <div className="alert alert-danger">{error}</div>}
       
       <div 
       className="modal fade" 
@@ -139,18 +137,22 @@ const Empalmes = () => {
           </div>
 
           <div className="modal-body">
+            {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-md-6">
                   <label className="form-label">NAP</label>
                   <Select
                     options={naps.map(nap => ({ value: nap.id_nap, label: nap.codigo_nap }))}
-                    onChange={(selectedOption) =>
-                      setNewEmpalme({ ...newEmpalme, id_nap: selectedOption.value })
-                    }
+                    onChange={(selectedOption) => {
+                      if (selectedOption) {
+                        setNewEmpalme({ ...newEmpalme, id_nap: selectedOption.value });
+                      }
+                    }}
+                    value={newEmpalme.id_nap ? naps.map(nap => ({ value: nap.id_nap, label: nap.codigo_nap })).find(opt => opt.value === newEmpalme.id_nap) : null}
                     placeholder="Selecciona o busca NAP"
                     isSearchable
-                    required
+                    isClearable
                   />
                 </div>
 
@@ -158,12 +160,15 @@ const Empalmes = () => {
                   <label className="form-label">Abonado</label>
                   <Select
                     options={abonados.map(ab => ({ value: ab.id_abonado, label: ab.codigo_abonado }))}
-                    onChange={(selectedOption) =>
-                      setNewEmpalme({ ...newEmpalme, id_abonado: selectedOption.value })
-                    }
+                    onChange={(selectedOption) => {
+                      if (selectedOption) {
+                        setNewEmpalme({ ...newEmpalme, id_abonado: selectedOption.value });
+                      }
+                    }}
+                    value={newEmpalme.id_abonado ? abonados.map(ab => ({ value: ab.id_abonado, label: ab.codigo_abonado })).find(opt => opt.value === newEmpalme.id_abonado) : null}
                     placeholder="Selecciona o busca abonado"
                     isSearchable
-                    required
+                    isClearable
                   />
                 </div>
               </div>
