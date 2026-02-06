@@ -16,7 +16,9 @@ app.use(express.json()); // Middleware para manejar JSON
 
 // Habilitar CORS
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: ['http://localhost:3000', 'https://daniproject.github.io'], // Permitir solicitudes desde estos orígenes
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Permitir estos métodos HTTP
+    allowedHeaders: ['Content-Type', 'Authorization'] // Permitir estos encabezados
 }));
 
 (async () => {
