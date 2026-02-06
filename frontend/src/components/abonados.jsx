@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../css/inicio.css';
+import axiosInstance from '../api/axiosConfig';
 
 const Abonados = () => {   
     const navigate = useNavigate();
@@ -32,12 +33,9 @@ const Abonados = () => {
         // Llamar a la API para obtener los datos de naps
         const fetchAbonados = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/abonados'); // Ajusta la URL según tu configuración
-                if (!response.ok) {
-                    throw new Error('Error al obtener los datos de abonados');
-                }
-                const data = await response.json();
-                setAbonados(data); // Guardar los datos en el estado
+                const response = await axiosInstance.get('/api/abonados'); // Ajusta la URL según tu configuración
+                
+                setAbonados(response.data); // Guardar los datos en el estado
             } catch (err) {
                 console.error(err);
                 setError('Error al cargar los datos de abonados');
@@ -48,11 +46,8 @@ const Abonados = () => {
 
         const fetchTrackingData = async (id_abonado) => {
             try {   
-                const response = await fetch(`http://localhost:5000/api/abonados/tracking/${id_abonado}`);
-                if (!response.ok) {
-                    throw new Error('Error al obtener los datos de tracking');
-                }
-                const data = await response.json();
+                const response = await axiosInstance.get(`/api/abonados/tracking/${id_abonado}`);
+                const data = response.data; // Aquí obtienes los datos de tracking
                 console.log(data); // Aquí puedes manejar los datos de tracking como desees
                 setTrackingData(data); // Guardar los datos de tracking en el estado
                 setShowModal(true); // Mostrar el modal con los datos de tracking
@@ -74,19 +69,8 @@ const Abonados = () => {
         const handleSubmit = async (e) => {
             e.preventDefault();
             try {
-                const response = await fetch('http://localhost:5000/api/abonados', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(newAbonado),
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Error al registrar el abonado');
-                }
-    
-                const data = await response.json();
+                const response = await axiosInstance.post('/api/abonados', newAbonado);
+                const data = response.data;
                 console.log('Abonado registrado:', data);
                 setNewAbonado({
                     nombre_abonado: '',
