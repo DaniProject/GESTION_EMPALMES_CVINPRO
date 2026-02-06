@@ -45,8 +45,8 @@ router.post('/', async (req, res) => {
 
     try {
         // Decode token to get user id
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'tu_clave_secreta');
-        const id_usuario = decoded.id_usuario || decoded.id;
+        const decoded = jwt.verify(token, 'clave_secreta');
+        const id_usuario = decoded.id;
 
         const query = `
             INSERT INTO empalmes (id_nap, puerto, potencia_abn, id_abonado, observaciones, id_usuario)
