@@ -22,6 +22,7 @@ const Naps = () => {
         mufa: '',
         buffer: '',
         hilo: '',
+        pre_spliter: '',
         spliter_type: '',
         potencia_nap: ''
     });
@@ -71,6 +72,7 @@ const Naps = () => {
                 mufa: '',
                 buffer: '',
                 hilo: '',
+                pre_spliter: '',
                 spliter_type: '',
                 potencia_nap: ''
             });
@@ -210,6 +212,21 @@ const Naps = () => {
                             />
                         </div>
                         <div className="col-md-4">
+                            <select
+                                name="pre_spliter"
+                                value={newNap.pre_spliter}
+                                onChange={handleInputChange}
+                                className="form-control mb-2"
+                                required
+                            >
+                                <option value="">Selecciona Pre-Spliter</option>
+                                <option value="80/20">80/20</option>
+                                <option value="75/25">75/25</option>
+                                <option value="50/50">50/50</option>
+                                <option value="FINAL">FINAL</option>
+                            </select>
+                        </div>
+                        <div className="col-md-4">
                             <input
                                 type="text"
                                 name="spliter_type"
@@ -242,13 +259,13 @@ const Naps = () => {
             <table className="table table-striped">
                 <thead style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
-                        
                         <th>NAP Name</th>
                         <th>Ubicación</th>
                         <th>Troncal</th>
                         <th>Mufa</th>
                         <th>Buffer</th>
                         <th>Hilo</th>
+                        <th>Pre-Spliter</th>
                         <th>Tipo Spliter</th>
                         <th>Potencia</th>
                         <th>Acciones</th>
@@ -271,6 +288,7 @@ const Naps = () => {
                             <td>{nap.mufa}</td>
                             <td>{nap.buffer}</td>
                             <td>{nap.hilo}</td>
+                            <td>{nap.pre_spliter}</td>
                             <td>{nap.spliter_type}</td>
                             <td>{nap.potencia_nap}</td>
                             <td>

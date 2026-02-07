@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/GESTION_EMPALMES_CVINPRO/static/css/main.474253c2.css",
-    "main.js": "/GESTION_EMPALMES_CVINPRO/static/js/main.cd9a0910.js",
+    "main.js": "/GESTION_EMPALMES_CVINPRO/static/js/main.fe7ae061.js",
     "static/media/logo.png": "/GESTION_EMPALMES_CVINPRO/static/media/logo.7de3d412e6651d0d642a.png",
     "static/media/bootstrap-icons.woff?": "/GESTION_EMPALMES_CVINPRO/static/media/bootstrap-icons.39795c0b4513de014cf8.woff",
     "static/media/bootstrap-icons.woff2?": "/GESTION_EMPALMES_CVINPRO/static/media/bootstrap-icons.b7bcc075b395c14ce8c2.woff2",
     "index.html": "/GESTION_EMPALMES_CVINPRO/index.html",
     "main.474253c2.css.map": "/GESTION_EMPALMES_CVINPRO/static/css/main.474253c2.css.map",
-    "main.cd9a0910.js.map": "/GESTION_EMPALMES_CVINPRO/static/js/main.cd9a0910.js.map"
+    "main.fe7ae061.js.map": "/GESTION_EMPALMES_CVINPRO/static/js/main.fe7ae061.js.map"
   },
   "entrypoints": [
     "static/css/main.474253c2.css",
-    "static/js/main.cd9a0910.js"
+    "static/js/main.fe7ae061.js"
   ]
 }

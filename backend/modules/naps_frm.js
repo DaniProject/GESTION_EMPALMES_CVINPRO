@@ -54,6 +54,7 @@ router.post('/', async (req, res) => {
         mufa,
         buffer,
         hilo,
+        pre_spliter,
         spliter_type,
         potencia_nap
     } = req.body;
@@ -63,8 +64,8 @@ router.post('/', async (req, res) => {
         const fecha_instalacion = now.toISOString().slice(0, 19).replace('T', ' ');
 
         const result = await db.query(
-            'INSERT INTO naps (codigo_nap, gps_lat, gps_lng, cable, mufa, buffer, hilo, spliter_type, potencia_nap, fecha_instalacion, tecnico_installer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [codigo_nap, gps_lat, gps_lng, cable, mufa, buffer, hilo, spliter_type, potencia_nap, fecha_instalacion, 'Nicanor']
+            'INSERT INTO naps (codigo_nap, gps_lat, gps_lng, cable, mufa, buffer, hilo, pre_spliter, spliter_type, potencia_nap, fecha_instalacion, tecnico_installer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [codigo_nap, gps_lat, gps_lng, cable, mufa, buffer, hilo, pre_spliter, spliter_type, potencia_nap, fecha_instalacion, 'Nicanor']
         );
 
         const newNap = {
@@ -76,6 +77,7 @@ router.post('/', async (req, res) => {
             mufa,
             buffer,
             hilo,
+            pre_spliter,
             spliter_type,
             potencia_nap,
             fecha_instalacion,
