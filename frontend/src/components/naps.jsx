@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../css/inicio.css';
+import axiosInstance from '../api/axiosConfig';
 
 const Naps = () => {
     const navigate = useNavigate();
@@ -37,12 +38,8 @@ const Naps = () => {
         // Llamar a la API para obtener los datos de naps
         const fetchNaps = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/naps'); // Ajusta la URL según tu configuración
-                if (!response.ok) {
-                    throw new Error('Error al obtener los datos de naps');
-                }
-                const data = await response.json();
-                setNaps(data); // Guardar los datos en el estado
+                const response = await axiosInstance.get('/api/naps'); // Ajusta la URL según tu configuración
+                setNaps(response.data); // Guardar los datos en el estado
             } catch (err) {
                 console.error(err);
                 setError('Error al cargar los datos de naps');
@@ -61,19 +58,9 @@ const Naps = () => {
         const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/naps', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newNap),
-            });
+            const response = await axiosInstance.post('/api/naps', newNap);
 
-            if (!response.ok) {
-                throw new Error('Error al guardar la caja NAP');
-            }
-
-            const savedNap = await response.json();
+            const savedNap = response.data;
             setNaps([...naps, savedNap]); // Agregar el nuevo NAP a la lista
             setShowForm(false); // Ocultar el formulario
             setNewNap({ // Reiniciar el formulario
@@ -87,9 +74,10 @@ const Naps = () => {
                 spliter_type: '',
                 potencia_nap: ''
             });
+            setError(null);
         } catch (err) {
             console.error(err);
-            setError('Error al guardar la caja NAP');
+            setError(err.response?.data?.error || 'Error al guardar la caja NAP');
         }
         };
 
@@ -104,11 +92,8 @@ const Naps = () => {
         const fetchDiagramData = async (id_nap) => {
             console.log('NAP ID:', id_nap);
             try {
-                const response = await fetch(`http://localhost:5000/api/naps/diagrama/${id_nap}`);
-                if (!response.ok) {
-                    throw new Error('Error al obtener el diagrama de empalme');
-                }
-                const data = await response.json();
+                const response = await axiosInstance.get(`/api/naps/diagrama/${id_nap}`);
+                const data = response.data;
                 setDiagramData(data);
                 setSelectedNap(id_nap);
                 setShowModal(true);

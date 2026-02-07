@@ -59,9 +59,12 @@ router.post('/', async (req, res) => {
     } = req.body;
 
     try {
+        const now = new Date();
+        const fecha_instalacion = now.toISOString().slice(0, 19).replace('T', ' ');
+
         const result = await db.query(
             'INSERT INTO naps (codigo_nap, gps_lat, gps_lng, cable, mufa, buffer, hilo, spliter_type, potencia_nap, fecha_instalacion, tecnico_installer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [codigo_nap, gps_lat, gps_lng, cable, mufa, buffer, hilo, spliter_type, potencia_nap, new Date().toISOString(), 'Nicanor']
+            [codigo_nap, gps_lat, gps_lng, cable, mufa, buffer, hilo, spliter_type, potencia_nap, fecha_instalacion, 'Nicanor']
         );
 
         const newNap = {
@@ -75,8 +78,8 @@ router.post('/', async (req, res) => {
             hilo,
             spliter_type,
             potencia_nap,
-            fecha_instalacion: new Date().toISOString(), // Asignar la fecha actual
-            tecnico_installer: 'Nicanor' //
+            fecha_instalacion,
+            tecnico_installer: 'Nicanor'
         };
 
         res.status(201).json(newNap);
