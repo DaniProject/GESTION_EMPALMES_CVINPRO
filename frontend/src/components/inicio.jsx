@@ -4,6 +4,7 @@ import Navbar from './NavBar';
 import Naps from './naps';
 import Empalmes from './empalmes';
 import Abonados from './abonados';
+import Usuarios from  './usuarios';
 import LateralBarInicio from './LateralBarInicio';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -34,6 +35,8 @@ const Inicio = () => {
               return <Empalmes />;
           case 'Abonados':
               return <Abonados/>;
+          case 'Usuarios':
+              return <Usuarios/>;
           default:
               return (
                   <div>

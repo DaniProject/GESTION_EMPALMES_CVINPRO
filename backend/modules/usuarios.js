@@ -1,15 +1,18 @@
 const express = require('express');
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const router = express.Router(); // Crear un enrutador
  
 // Middleware para manejar JSON
 router.use(express.json());
 
-// Obtener todos los usuarios
-router.get('/', async (req, res) => {
+// Obtener todos los usuarios (sin devolver contraseñas)
+router.get('/', async (req, res) => { 
     try {
-        const [rows] = await db.query('SELECT * FROM usuarios'); // Ajusta la query si es necesario
+        const [rows] = await db.query(
+            'SELECT id_usuario, nombre_usuario, user_usuario, rol_usuario FROM usuarios'
+        );
         res.json(rows);
     } catch (err) {
         console.error('Error obteniendo usuarios:', err);
@@ -42,7 +45,9 @@ router.post('/login', async (req, res) => {
         }
 
         const user = rows[0];
-        if (pass_usuario !== user.pass_usuario) {
+        // Comparar contraseña con hash almacenado
+        const match = await bcrypt.compare(pass_usuario, user.pass_usuario);
+        if (!match) {
             return res.status(400).json({ message: 'Credenciales incorrectas' });
         }
 
