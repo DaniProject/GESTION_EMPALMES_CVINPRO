@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 // Endpoint para el login
 router.post('/login', async (req, res) => {
     const { nombre_usuario, pass_usuario } = req.body;
-    console.log('Datos recibidos:', req.body);
+    console.log('Login attempt for user:', nombre_usuario);
 
     if (!nombre_usuario || !pass_usuario) {
         return res.status(400).json({ message: 'Usuario y contraseña son requeridos' });
@@ -70,5 +70,34 @@ router.post('/login', async (req, res) => {
 
 // Exportar el enrutador
 module.exports = router;
+
+// Endpoint para registrar un nuevo usuario (hashea la contraseña antes de guardar)
+router.post('/register', async (req, res) => {
+    const { nombre_usuario, user_usuario, pass_usuario, rol_usuario } = req.body;
+
+    if (!user_usuario || !pass_usuario) {
+        return res.status(400).json({ message: 'Usuario y contraseña son requeridos' });
+    }
+
+    try {
+        const [exists] = await db.query('SELECT id_usuario FROM usuarios WHERE user_usuario = ?', [user_usuario]);
+        if (exists.length > 0) {
+            return res.status(400).json({ message: 'El nombre de usuario ya está en uso' });
+        }
+
+        const saltRounds = 10;
+        const hash = await bcrypt.hash(pass_usuario, saltRounds);
+
+        const [result] = await db.query(
+            'INSERT INTO usuarios (nombre_usuario, user_usuario, pass_usuario, rol_usuario) VALUES (?, ?, ?, ?)',
+            [nombre_usuario || null, user_usuario, hash, rol_usuario || 2]
+        );
+
+        return res.status(201).json({ message: 'Usuario creado', id: result.insertId });
+    } catch (err) {
+        console.error('Error creando usuario:', err);
+        return res.status(500).json({ message: 'Error al crear usuario' });
+    }
+});
 
 
