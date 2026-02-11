@@ -3,19 +3,42 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../css/inicio.css';
-import axiosInstance from '../api/axiosConfig';
+import axios from '../api/axiosConfig';
 
 const Usuarios = () => {   
     const navigate = useNavigate();
+    const [nombre, setNombre] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [empresaId, setEmpresaId] = useState('');
+    const [rolId, setRolId] = useState('');
+    const [showModal, setShowModal] = useState(false);
     const [usuarios, setUsuarios] = useState([]);
     const [error, setError] = useState(null);
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        try {
+          const response = await axios.post('http://localhost:5000/api/registerUser', {
+            nombre,
+            email,
+            password,
+            empresa_id: empresaId,
+            rol_id: rolId
+          });
+          console.log('Usuario registrado:', response.data);
+          setShowModal(false);
+        } catch (error) {
+          console.error('Error registrando el usuario:', error);
+        }
+      };
 
     useEffect(() => {
         
         // Llamar a la API para obtener los datos de usuarios
         const fetchUsuarios = async () => {
             try {
-                const response = await axiosInstance.get('/api/usuarios'); // Ajusta la URL según tu configuración
+                const response = await axios.get('/api/usuarios'); // Ajusta la URL según tu configuración
                 
                 setUsuarios(response.data); // Guardar los datos en el estado
             } catch (err) {
@@ -28,15 +51,22 @@ const Usuarios = () => {
 
     return (
     
-        <div className="container mt-4">
-            <h2>Usuarios</h2>
-
+        <>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+            <h1>USUARIOS</h1>
+                <button
+                type="button" 
+                className="btn btn-success"  
+                onClick={() => setShowModal(true)}>
+                <i className="fas fa-plus"></i>
+                REGISTRO DE USUARIO
+                </button>
             {error && (
                 <div className="alert alert-danger" role="alert">
                     {error}
                 </div>
             )}
-
+        </div>
             {usuarios.length === 0 && !error ? (
                 <p>No hay usuarios para mostrar.</p>
             ) : (
@@ -63,9 +93,52 @@ const Usuarios = () => {
                     </table>
                 </div>
             )}
-        </div>    
-    
- 
+        
+          
+        {showModal && (
+      <div className="modal" style={{ display: 'block', position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '9999' }}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">REGISTRAR USUARIO</h5>
+              <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleRegister}>
+                <div className="form-group">
+                  <label>Nombre</label>
+                  <input type="text" className="form-control" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                  <label>Password</label>
+                  <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                  <label>Empresa ID</label>
+                  <input type="text" className="form-control" value={empresaId} onChange={(e) => setEmpresaId(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                  <label>Rol ID</label>
+                  <input type="text" className="form-control" value={rolId} onChange={(e) => setRolId(e.target.value)} required />
+                </div>
+                <button 
+                    type="submit" 
+                    className="btn btn-primary" 
+                    onClick={() => {
+                    window.location.reload()
+                    }}>REGISTRAR
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+        </>
     );
 }
 

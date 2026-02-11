@@ -7,6 +7,7 @@ import "../css/inicio.css";
 import axiosInstance from '../api/axiosConfig';
 
 const Empalmes = () => {
+  const rol = localStorage.getItem('rol');
   const navigate = useNavigate();
   const [abonados, setAbonados] = useState([]);
   const [naps, setNaps] = useState([]);
@@ -106,6 +107,7 @@ const Empalmes = () => {
     <div>
       <div className="d-flex justify-content-between align-items-center">
         <h1>EMPALMES</h1>
+        {rol === '1' && (
         <button 
         type="button" 
         className="btn btn-primary mb-3" 
@@ -115,6 +117,7 @@ const Empalmes = () => {
         >
             Agregar Empalme
         </button>
+        )}
       </div>
       
       <div 

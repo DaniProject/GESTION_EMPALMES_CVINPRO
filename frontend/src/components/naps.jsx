@@ -18,7 +18,7 @@ const Naps = () => {
         codigo_nap: '', 
         gps_lat: '',
         gps_lng: '',
-        cable: '',
+        cable: '', 
         mufa: '',
         buffer: '',
         hilo: '',
