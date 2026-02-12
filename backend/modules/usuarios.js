@@ -73,7 +73,7 @@ module.exports = router;
 
 // Endpoint para registrar un nuevo usuario (hashea la contraseña antes de guardar)
 router.post('/register', async (req, res) => {
-    const { nombre_usuario, user_usuario, pass_usuario, rol_usuario } = req.body;
+    const { rol_usuario, nombre_usuario, user_usuario, pass_usuario} = req.body;
 
     if (!user_usuario || !pass_usuario) {
         return res.status(400).json({ message: 'Usuario y contraseña son requeridos' });
@@ -89,8 +89,8 @@ router.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(pass_usuario, saltRounds);
 
         const [result] = await db.query(
-            'INSERT INTO usuarios (nombre_usuario, user_usuario, pass_usuario, rol_usuario) VALUES (?, ?, ?, ?)',
-            [nombre_usuario || null, user_usuario, hash, rol_usuario || 2]
+            'INSERT INTO usuarios (rol_usuario, nombre_usuario, user_usuario, pass_usuario) VALUES (?, ?, ?, ?)',
+            [rol_usuario || 2, nombre_usuario || null, user_usuario, hash]
         );
 
         return res.status(201).json({ message: 'Usuario creado', id: result.insertId });

@@ -8,10 +8,9 @@ import axios from '../api/axiosConfig';
 const Usuarios = () => {   
     const navigate = useNavigate();
     const [nombre, setNombre] = useState('');
-    const [email, setEmail] = useState('');
+    const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
-    const [empresaId, setEmpresaId] = useState('');
-    const [rolId, setRolId] = useState('');
+    const [rol, setRol] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [usuarios, setUsuarios] = useState([]);
     const [error, setError] = useState(null);
@@ -19,12 +18,11 @@ const Usuarios = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-          const response = await axios.post('http://localhost:5000/api/registerUser', {
-            nombre,
-            email,
-            password,
-            empresa_id: empresaId,
-            rol_id: rolId
+          const response = await axios.post('/api/usuarios/register', {
+            rol_usuario: rol,
+            nombre_usuario: nombre,
+            user_usuario: user,
+            pass_usuario: password,
           });
           console.log('Usuario registrado:', response.data);
           setShowModal(false);
@@ -106,24 +104,20 @@ const Usuarios = () => {
             <div className="modal-body">
               <form onSubmit={handleRegister}>
                 <div className="form-group">
-                  <label>Nombre</label>
+                  <label>ROL</label>
+                  <input type="text" className="form-control" value={rol} onChange={(e) => setRol(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                  <label>NOMBRE COMPLETO</label>
                   <input type="text" className="form-control" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                  <label>Email</label>
-                  <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                  <label>USUARIO</label>
+                  <input type="text" className="form-control" value={user} onChange={(e) => setUser(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                  <label>Password</label>
+                  <label>CONTRASEÑA</label>
                   <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Empresa ID</label>
-                  <input type="text" className="form-control" value={empresaId} onChange={(e) => setEmpresaId(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Rol ID</label>
-                  <input type="text" className="form-control" value={rolId} onChange={(e) => setRolId(e.target.value)} required />
                 </div>
                 <button 
                     type="submit" 
