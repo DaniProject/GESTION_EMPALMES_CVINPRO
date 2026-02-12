@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../css/inicio.css';
+import '../css/responsive-content.css';
 import axios from '../api/axiosConfig';
 
 const Usuarios = () => {   
@@ -41,6 +42,8 @@ const Usuarios = () => {
           setError(mensajeError);
         }
       };
+    const rol1 =localStorage.getItem('rol'); // Obtener el rol del usuario desde localStorage
+    const rolDep = rol1 === '1';// Verificar si el rol es "Root"  
 
     useEffect(() => {
         
@@ -63,13 +66,15 @@ const Usuarios = () => {
         <>
         <div className="d-flex justify-content-between align-items-center mb-3">
             <h1>USUARIOS</h1>
-                <button
-                type="button" 
-                className="btn btn-success"  
-                onClick={() => setShowModal(true)}>
-                <i className="fas fa-plus"></i>
-                REGISTRO DE USUARIO
-                </button>
+                {rolDep && (
+                    <button
+                    type="button" 
+                    className="btn btn-success"  
+                    onClick={() => setShowModal(true)}>
+                    <i className="fas fa-plus"></i>
+                      REGISTRO DE USUARIO
+                    </button>
+                )}
             {error && (
                 <div className="alert alert-danger" role="alert">
                     {error}

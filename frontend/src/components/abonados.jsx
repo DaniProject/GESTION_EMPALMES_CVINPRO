@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../css/inicio.css';
+import '../css/responsive-content.css';
 import axiosInstance from '../api/axiosConfig';
 
 const Abonados = () => {   
     const navigate = useNavigate();
+    const [error, setError] = useState(null); // Estado para manejar errores
     const [abonados, setAbonados] = React.useState([]); // Estado para almacenar los empalmes
-    const [error, setError] = React.useState(null); // Estado para manejar errores
     const [trackingData, setTrackingData] = useState(null); // Estado para almacenar los datos de tracking
     const [showModal, setShowModal] = useState(false); // Estado para controlar el modal
     const [showFormModal, setShowFormModal] = useState(false); // Estado para controlar el modal de registro
@@ -21,7 +22,7 @@ const Abonados = () => {
     });
     const filteredAbonados = abonados.filter(abonados => abonados.id_abonado !== null); // Filtrar los empalmes que tienen id_nap
     const rol =localStorage.getItem('rol'); // Obtener el rol del usuario desde localStorage
-
+    const rolDep = rol === '1';// Verificar si el rol es "Root"
 
     useEffect(() => {
         // Verificar si el token de autenticación está presente
@@ -99,23 +100,24 @@ const Abonados = () => {
         };
 
     return (
-    <div>
-        <div className="d-flex justify-content-between align-items-center mb-3">
+    <div className="content-container">
+        <div className="content-header">
             <h1>ABONADOS</h1>
+            {rolDep && (
             <button 
                 type="button" 
                 className="btn btn-success" 
                 onClick={() => setShowFormModal(true)}
             >
-                <i className="fas fa-plus"></i> Registrar Abonado
+                <i className="bi bi-plus-lg"></i> Registrar Abonado
             </button>
+            )}
         </div>
-        {error && <div className="alert alert-danger">{error}</div>}
-        <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-            <table className="table table-striped">
-                <thead style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
+
+        <div className="table-responsive">
+            <table className="table table-striped table-hover">
+                <thead className="table-light">
                     <tr>
-                        
                         <th>Nombre</th>
                         <th>Codigo</th>
                         <th>Servicio</th>

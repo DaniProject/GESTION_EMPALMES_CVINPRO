@@ -11,6 +11,7 @@ import {
   BarElement,
   Title,
 } from 'chart.js';
+import '../css/dashboard.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
@@ -42,6 +43,20 @@ const Dashboard = () => {
     fetchStats();
   }, []);
 
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          font: { size: 12 },
+          padding: 10,
+        },
+      },
+    },
+  };
+
   const pieData = {
     labels: abonadosData.map(d => d.servicio || 'Otros'),
     datasets: [
@@ -49,6 +64,7 @@ const Dashboard = () => {
         data: abonadosData.map(d => d.total),
         backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#8AE234', '#9966FF'],
         hoverBackgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#8AE234', '#9966FF'],
+        borderWidth: 2,
       },
     ],
   };
@@ -60,63 +76,99 @@ const Dashboard = () => {
           {
             data: [puertos.used_ports, Math.max(puertos.total_ports - puertos.used_ports, 0)],
             backgroundColor: ['#FF6384', '#36A2EB'],
+            borderWidth: 2,
           },
         ],
       }
     : null;
 
-  const napsUsoData = napsPorNap.length
+  const napsUsoData = napsPorNap.slice(0, 8).length
     ? {
-        labels: napsPorNap.map(n => n.codigo_nap || `NAP ${n.id_nap}`),
+        labels: napsPorNap.slice(0, 8).map(n => n.codigo_nap || `NAP ${n.id_nap}`),
         datasets: [
           {
             label: 'Puertos usados',
-            data: napsPorNap.map(n => n.used_ports),
+            data: napsPorNap.slice(0, 8).map(n => n.used_ports),
             backgroundColor: '#36A2EB',
+            borderColor: '#2196F3',
+            borderWidth: 1,
           },
         ],
       }
     : null;
 
+  const barOptions = {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: true, position: 'bottom' },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        max: 16,
+        ticks: { font: { size: 11 } },
+      },
+      y: {
+        ticks: { font: { size: 11 } },
+      },
+    },
+  };
+
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <div className="row">
-        <div className="col-md-6">
-          <div className="card p-3 mb-3">
-            <h6>Abonados por servicio</h6>
-            <Pie data={pieData} />
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h2>Dashboard</h2>
+      </div>
+
+      {/* Top Row: 4 KPI Cards */}
+      <div className="kpi-row">
+        <div className="kpi-card">
+          <div className="kpi-title">Abonados Totales</div>
+          <div className="kpi-value">{abonadosData.reduce((s, d) => s + d.total, 0)}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-title">Puertos Usados</div>
+          <div className="kpi-value">{puertos?.used_ports || 0}</div>
+          <div className="kpi-subtitle">de {puertos?.total_ports || 0}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-title">NAPs en Uso</div>
+          <div className="kpi-value">{napsUso?.naps_in_use || 0}</div>
+          <div className="kpi-subtitle">de {napsUso?.total_naps || 0}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-title">% Puertos</div>
+          <div className="kpi-value">{puertos?.percent_used || 0}%</div>
+          <div className="kpi-subtitle">Ocupado</div>
+        </div>
+      </div>
+
+      {/* Charts Row */}
+      <div className="charts-row">
+        <div className="chart-card">
+          <h5>Abonados por Servicio</h5>
+          <div className="chart-wrapper">
+            <Pie data={pieData} options={chartOptions} />
           </div>
         </div>
-        <div className="col-md-6">
-          <div className="card p-3 mb-3">
-            <h6>Puertos usados</h6>
-            {puertosData ? <Doughnut data={puertosData} /> : <p>Cargando...</p>}
-            {puertos && (
-              <p className="mt-2">{`Usados: ${puertos.used_ports} / ${puertos.total_ports} (${puertos.percent_used}%)`}</p>
-            )}
+
+        <div className="chart-card">
+          <h5>Puertos Usados vs Disponibles</h5>
+          <div className="chart-wrapper">
+            {puertosData ? <Doughnut data={puertosData} options={chartOptions} /> : <p>Cargando...</p>}
           </div>
         </div>
       </div>
 
-      <div className="row">
-        <div className="col-md-6">
-          <div className="card p-3 mb-3">
-            <h6>NAPs en uso</h6>
-            {napsUso ? (
-              <div>
-                <p>{`${napsUso.naps_in_use} de ${napsUso.total_naps} (${napsUso.percent_in_use}%)`}</p>
-              </div>
-            ) : (
-              <p>Cargando...</p>
-            )}
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className="card p-3 mb-3">
-            <h6>Puertos por NAP (top 10)</h6>
+      {/* Bar Chart Row */}
+      <div className="charts-row">
+        <div className="chart-card full-width">
+          <h5>Uso de Puertos por NAP (Top 8)</h5>
+          <div className="chart-wrapper-bar">
             {napsUsoData ? (
-              <Bar data={{ ...napsUsoData, datasets: [{ ...napsUsoData.datasets[0], backgroundColor: '#8e5ea2' }] }} options={{ indexAxis: 'y' }} />
+              <Bar data={napsUsoData} options={barOptions} />
             ) : (
               <p>Cargando...</p>
             )}

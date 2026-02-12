@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../css/inicio.css";
+import "../css/responsive-content.css";
 import axiosInstance from '../api/axiosConfig';
 
 const Empalmes = () => {

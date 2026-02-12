@@ -1,0 +1,377 @@
+/* ============================================
+   CONTENT COMPONENTS RESPONSIVE STYLES
+   ============================================ */
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #007bff;
+}
+
+.content-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #1a1a1a;
+  flex: 1 1 auto;
+  min-width: 150px;
+}
+
+.content-header .btn {
+  flex-shrink: 0;
+}
+
+.btn-text {
+  display: inline;
+}
+
+/* Table Responsive Wrapper */
+.table-responsive-wrapper {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.table-responsive-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-responsive-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.table-responsive-wrapper::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.table-responsive-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f0f8ff !important;
+}
+
+/* Modal Styles - Responsive */
+.modal-dialog {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-content {
+  border-radius: 12px;
+}
+
+.modal-header {
+  padding: 20px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.modal-header .modal-title {
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.modal-header .btn-close {
+  filter: brightness(0) invert(1);
+}
+
+.modal-body {
+  padding: 25px;
+  max-height: calc(90vh - 150px);
+  overflow-y: auto;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.modal-footer {
+  padding: 15px 25px;
+  gap: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Form Styles - Responsive Grid */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-control, .form-select {
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+/* Search Input Styling */
+.form-control.search-input {
+  max-width: 300px;
+  margin-bottom: 15px;
+}
+
+/* Action Buttons in Tables */
+.btn-group-actions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* ============================================
+   TABLET RESPONSIVE (768px and below)
+   ============================================ */
+
+@media (max-width: 768px) {
+  .content-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .content-header h1 {
+    font-size: 22px;
+    width: 100%;
+  }
+
+  .content-header .btn {
+    width: auto;
+    justify-content: center;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .btn-text {
+    display: inline;
+  }
+
+  .table-responsive-wrapper {
+    max-height: 400px;
+    font-size: 12px;
+  }
+
+  .table thead th {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .table tbody td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .form-control.search-input {
+    max-width: 100%;
+  }
+
+  .modal-dialog {
+    max-width: 95vw;
+    margin: 10px auto;
+  }
+
+  .modal-body {
+    padding: 15px;
+  }
+
+  .modal-footer {
+    padding: 12px 15px;
+    gap: 8px;
+  }
+
+  .btn-group-actions {
+    gap: 3px;
+  }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE (480px and below)
+   ============================================ */
+
+@media (max-width: 480px) {
+  .content-header h1 {
+    font-size: 20px;
+  }
+
+  .content-header .btn {
+    width: auto;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .table-responsive-wrapper {
+    max-height: 350px;
+    font-size: 11px;
+    border-radius: 6px;
+  }
+
+  .table thead th {
+    padding: 6px 8px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .table tbody td {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  /* Hide less important columns on mobile */
+  .table th:nth-child(n+5),
+  .table td:nth-child(n+5) {
+    display: none;
+  }
+
+  /* Exception: show action column */
+  .table th:last-child,
+  .table td:last-child {
+    display: table-cell !important;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .form-control, .form-select {
+    font-size: 16px; /* Prevenir zoom en iPhone */
+    padding: 8px 10px;
+  }
+
+  .modal-content {
+    border-radius: 8px;
+  }
+
+  .modal-header {
+    padding: 15px;
+  }
+
+  .modal-header .modal-title {
+    font-size: 16px;
+  }
+
+  .modal-body {
+    padding: 12px;
+    max-height: calc(85vh - 100px);
+  }
+
+  .modal-footer {
+    padding: 10px 12px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .btn-group-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-sm {
+    width: 100%;
+    text-align: center;
+  }
+
+  .btn-text {
+    display: inline;
+  }
+
+  .form-control.search-input {
+    max-width: 100%;
+    font-size: 14px;
+  }
+}
+
+/* Loading & Empty State */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}
+
+.empty-state i {
+  font-size: 48px;
+  margin-bottom: 15px;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 14px;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .empty-state {
+    padding: 30px 15px;
+  }
+
+  .empty-state i {
+    font-size: 40px;
+  }
+}

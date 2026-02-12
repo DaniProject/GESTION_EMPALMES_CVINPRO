@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../css/inicio.css';
+import '../css/responsive-content.css';
 import axiosInstance from '../api/axiosConfig';
 
 const Naps = () => {
@@ -43,7 +44,7 @@ const Naps = () => {
                 setNaps(response.data); // Guardar los datos en el estado
             } catch (err) {
                 console.error(err);
-                setError('Error al cargar los datos de naps');
+                setError('Error al cargar el diagrama de empalme');
             }
         };
         fetchNaps();
@@ -101,7 +102,7 @@ const Naps = () => {
                 setShowModal(true);
             } catch (err) {
                 console.error(err);
-                setError('Error al obtener el diagrama de empalme');
+                setError('NAP SIN EMPALMES, DISPONIBLE TODOS LOS PUERTOS');
             }
         };
     
@@ -112,152 +113,240 @@ const Naps = () => {
         };
 
   return (
-    <div>
-        <div className="d-flex justify-content-between align-items-center">
+    <div className="content-container">
+        <div className="content-header">
             <h1>Cajas NAP</h1>
             {rol === '1' && (
                     <button
-                        className="btn btn-primary"
-                        onClick={() => setShowForm(!showForm)}
+                        className="btn btn-success"
+                        data-bs-toggle="modal"
+                        data-bs-target="#napModal"
                     >
-                        {showForm ? 'Cancelar' : 'Agregar Caja NAP'}
+                        <i className="bi bi-plus-lg"></i> <span className="btn-text">Agregar Caja NAP</span>
                     </button>
                 )}
         </div>
+
+        {/* Modal para agregar NAP */}
+        <div 
+            className="modal fade" 
+            id="napModal" 
+            tabIndex="-1" 
+            aria-labelledby="napModalLabel" 
+            aria-hidden="true"
+        >
+            <div className="modal-dialog modal-lg modal-dialog-scrollable">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="napModalLabel">Agregar Caja NAP</h5>
+                        <button 
+                            type="button" 
+                            className="btn-close" 
+                            data-bs-dismiss="modal" 
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div className="modal-body">
+                        {error && <div className="alert alert-danger">{error}</div>}
+                        <form onSubmit={handleSubmit}>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Código NAP</label>
+                                        <input
+                                            type="text"
+                                            name="codigo_nap"
+                                            placeholder="Código NAP"
+                                            value={newNap.codigo_nap}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Latitud</label>
+                                        <input
+                                            type="text"
+                                            name="gps_lat"
+                                            placeholder="Latitud"
+                                            value={newNap.gps_lat}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Longitud</label>
+                                        <input
+                                            type="text"
+                                            name="gps_lng"
+                                            placeholder="Longitud"
+                                            value={newNap.gps_lng}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Troncal</label>
+                                        <input
+                                            type="text"
+                                            name="cable"
+                                            placeholder="Troncal"
+                                            value={newNap.cable}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Mufa</label>
+                                        <input
+                                            type="text"
+                                            name="mufa"
+                                            placeholder="Mufa"
+                                            value={newNap.mufa}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Buffer</label>
+                                        <input
+                                            type="text"
+                                            name="buffer"
+                                            placeholder="Buffer"
+                                            value={newNap.buffer}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Hilo</label>
+                                        <input
+                                            type="text"
+                                            name="hilo"
+                                            placeholder="Hilo"
+                                            value={newNap.hilo}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Pre-Spliter</label>
+                                        <select
+                                            name="pre_spliter"
+                                            value={newNap.pre_spliter}
+                                            onChange={handleInputChange}
+                                            className="form-select"
+                                            required
+                                        >
+                                            <option value="">Selecciona Pre-Spliter</option>
+                                            <option value="80/20">80/20</option>
+                                            <option value="75/25">75/25</option>
+                                            <option value="50/50">50/50</option>
+                                            <option value="FINAL">FINAL</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Tipo Spliter</label>
+                                        <input
+                                            type="text"
+                                            name="spliter_type"
+                                            placeholder="Tipo Spliter"
+                                            value={newNap.spliter_type}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Potencia</label>
+                                        <input
+                                            type="text"
+                                            name="potencia_nap"
+                                            placeholder="Potencia"
+                                            value={newNap.potencia_nap}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="modal-footer">
+                        <button 
+                            type="button" 
+                            className="btn btn-secondary" 
+                            data-bs-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button 
+                            type="button" 
+                            className="btn btn-success" 
+                            onClick={handleSubmit}
+                            data-bs-dismiss="modal"
+                        >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
             <input
                 type="text"
                 placeholder="Buscar..."
-                className="form-control my-3"
+                className="form-control form-control.search-input my-3"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
-            {showForm && (
-                <form onSubmit={handleSubmit} className="mt-4">
-                    <div className="row">
-                        <div className="col-md-4">
-                            <input
-                                type="text"
-                                name="codigo_nap"
-                                placeholder="Código NAP"
-                                value={newNap.codigo_nap}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="text"
-                                name="gps_lat"
-                                placeholder="Latitud"
-                                value={newNap.gps_lat}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="text"
-                                name="gps_lng"
-                                placeholder="Longitud"
-                                value={newNap.gps_lng}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="text"
-                                name="cable"
-                                placeholder="Troncal"
-                                value={newNap.cable}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="text"
-                                name="mufa"
-                                placeholder="Mufa"
-                                value={newNap.mufa}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="text"
-                                name="buffer"
-                                placeholder="Buffer"
-                                value={newNap.buffer}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="text"
-                                name="hilo"
-                                placeholder="Hilo"
-                                value={newNap.hilo}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <select
-                                name="pre_spliter"
-                                value={newNap.pre_spliter}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            >
-                                <option value="">Selecciona Pre-Spliter</option>
-                                <option value="80/20">80/20</option>
-                                <option value="75/25">75/25</option>
-                                <option value="50/50">50/50</option>
-                                <option value="FINAL">FINAL</option>
-                            </select>
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="text"
-                                name="spliter_type"
-                                placeholder="Tipo Spliter"
-                                value={newNap.spliter_type}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="text"
-                                name="potencia_nap"
-                                placeholder="Potencia"
-                                value={newNap.potencia_nap}
-                                onChange={handleInputChange}
-                                className="form-control mb-2"
-                                required
-                            />
+            {/* Error alerts shown as dismissible modal instead of static div */}
+            {error && (
+                <div className="modal show d-block" tabIndex="-1" role="dialog">
+                    <div className="modal-dialog modal-sm modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Aviso</h5>
+                                <button type="button" className="btn-close" onClick={() => setError(null)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="alert alert-danger m-0">{error}</div>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" onClick={() => setError(null)}>Cerrar</button>
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-success">
-                        Guardar
-                    </button>
-                </form>
+                </div>
             )}
-            {error && <div className="alert alert-danger">{error}</div>}
-            <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-            <table className="table table-striped">
-                <thead style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
+            <div className="table-responsive-wrapper">
+            <table className="table table-striped table-hover">
+                <thead>
                     <tr>
                         <th>NAP Name</th>
                         <th>Ubicación</th>
@@ -296,7 +385,7 @@ const Naps = () => {
                                     className="btn btn-primary btn-sm"
                                     onClick={() => fetchDiagramData(nap.id_nap)}
                                 >
-                                Diagrama de Empalme
+                                Diagrama
                                 </button>
                             </td>
                         </tr>
@@ -304,15 +393,14 @@ const Naps = () => {
                 </tbody>
             </table>
             </div>
+
             {showModal && (
                 <div className="modal show d-block" tabIndex="-1" role="dialog">
-                    <div className="modal-dialog" role="document">
+                    <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">Diagrama de Empalme - NAP {selectedNap}</h5>
-                                <button type="button" className="close" onClick={closeModal}>
-                                    <span>&times;</span>
-                                </button>
+                                <button type="button" className="btn-close" onClick={closeModal}></button>
                             </div>
                             <div className="modal-body">
                                 {diagramData.length > 0 ? (
@@ -336,8 +424,7 @@ const Naps = () => {
                     </div>
                 </div>
             )}
-        <br />
-    </div>
+        </div>
   );
 };
 

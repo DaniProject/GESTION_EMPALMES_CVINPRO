@@ -46,16 +46,17 @@ const Inicio = () => {
   };
 
   return (
-    <div>
+    <div className="inicio-wrapper">
       <Navbar/>
-      <div style={{ display: 'flex', height: '100vh' }}>
+      <div className="inicio-main">
         <LateralBarInicio setActiveComponent={setActiveComponent} />
-        <div style={{ flex: 1, padding: '20px' }}>{/* Aquí puedes agregar nuevos componentes o contenido */}
-                    {renderContent()}
-                    <br />
-          <span className="nav-link text-center"><i className="bi bi-c-circle"></i> CABLEVISION GROUP all rigth reserved</span> 
+        <div className="inicio-content">
+          {renderContent()}
         </div>
-    </div>
+      </div>
+      <footer className="inicio-footer">
+        <span><i className="bi bi-c-circle"></i> CABLEVISION GROUP all rights reserved</span>
+      </footer>
     </div>
   );
 };

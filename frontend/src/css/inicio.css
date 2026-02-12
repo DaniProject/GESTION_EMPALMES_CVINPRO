@@ -1,18 +1,148 @@
-.navbar{
-    background: #00a2ff; ;
-    width: 100%; 
-    font-size:20px; 
-    z-index:9999;
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
-.imgLogo{
+
+.inicio-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.navbar {
+    background: #00a2ff;
+    width: 100%;
+    font-size: 20px;
+    z-index: 9999;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.imgLogo {
     width: 120px;
     height: 70px;
-    margin: 0px 0px 0px 0px;
+    margin: 0px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: block;
 }
+
+.imgLogo:hover {
+    transform: scale(1.05);
+}
+
+.inicio-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.inicio-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    scrollbar-width: thin;
+}
+
+.inicio-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.inicio-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.inicio-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.inicio-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.inicio-footer {
+    background: #0381ff;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #000000;
+    border-top: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
+
 .table-cell {
-    max-width: 150px; /* Ajusta este valor según tus necesidades */
+    max-width: 150px;
     word-wrap: break-word;
     white-space: normal;
+}
+
+.table tbody tr.firmado td {
+    background-color: #d4edda !important;
+}
+  
+.table tbody tr.pendiente td {
+    background-color: #fff3cd !important;
+    font-weight: bold;
+}
+
+/* ============================================
+   TABLET RESPONSIVE (768px and below)
+   ============================================ */
+
+@media (max-width: 768px) {
+    .inicio-main {
+        position: relative;
+    }
+
+    .inicio-content {
+        padding: 15px;
+    }
+
+    .navbar {
+        padding: 0 10px;
+    }
+
+    .imgLogo {
+        width: 100px;
+        height: 60px;
+    }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE (480px and below)
+   ============================================ */
+
+@media (max-width: 480px) {
+    .inicio-wrapper {
+        height: 100dvh; /* Dynamic viewport height para móviles */
+    }
+
+    .inicio-main {
+        flex-direction: column;
+    }
+
+    .inicio-content {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .navbar {
+        padding: 0 8px;
+    }
+
+    .imgLogo {
+        width: 80px;
+        height: 50px;
+    }
+
+    .inicio-footer {
+        padding: 8px;
+        font-size: 11px;
+    }
 }
 
 .table tbody tr.firmado td {
