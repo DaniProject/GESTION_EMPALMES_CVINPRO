@@ -68,9 +68,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Exportar el enrutador
-module.exports = router;
-
 // Endpoint para registrar un nuevo usuario (hashea la contraseña antes de guardar)
 router.post('/register', async (req, res) => {
     const { rol_usuario, nombre_usuario, user_usuario, pass_usuario} = req.body;
@@ -99,5 +96,8 @@ router.post('/register', async (req, res) => {
         return res.status(500).json({ message: 'Error al crear usuario' });
     }
 });
+
+// Exportar el enrutador
+module.exports = router;
 
 

@@ -25,9 +25,20 @@ const Usuarios = () => {
             pass_usuario: password,
           });
           console.log('Usuario registrado:', response.data);
+          setError(null);
+          setNombre('');
+          setUser('');
+          setPassword('');
+          setRol('');
           setShowModal(false);
+          // Recargar la lista de usuarios
+          const usuariosResponse = await axios.get('/api/usuarios');
+          setUsuarios(usuariosResponse.data);
+          alert('Usuario registrado exitosamente');
         } catch (error) {
           console.error('Error registrando el usuario:', error);
+          const mensajeError = error.response?.data?.message || 'Error al registrar el usuario';
+          setError(mensajeError);
         }
       };
 
@@ -122,9 +133,7 @@ const Usuarios = () => {
                 <button 
                     type="submit" 
                     className="btn btn-primary" 
-                    onClick={() => {
-                    window.location.reload()
-                    }}>REGISTRAR
+                    >REGISTRAR
                 </button>
               </form>
             </div>
