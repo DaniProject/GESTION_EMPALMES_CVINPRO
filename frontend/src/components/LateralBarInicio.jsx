@@ -31,11 +31,6 @@ const LateralBarInicio = ({ setActiveComponent }) => {
                         <i className="bi bi-person-fill-gear"></i> Usuarios
                     </button>
                     </li>
-                    <li className="nav-item">
-                    <button type="button" className="nav-link text-white" onClick={() => setActiveComponent('Reportes')}>
-                        <i className="bi bi-flag"></i> Reportes
-                    </button>
-                    </li>
                 </>
                 )}
             </ul>    

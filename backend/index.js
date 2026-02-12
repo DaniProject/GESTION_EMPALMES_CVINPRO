@@ -34,12 +34,14 @@ const usuariosRoutes = require('./modules/usuarios');
 const napsRoutes = require('./modules/naps_frm'); // Importar la ruta de Naps
 const empalmesRoutes = require('./modules/empalmes'); // Importar la ruta de Empalmes
 const abonadosRoutes = require('./modules/abonados'); // Importar la ruta de Abonados
+const statsRoutes = require('./modules/dashboard');
 
 // Rutas base
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/naps', napsRoutes); // Registrar la ruta de Naps
 app.use('/api/empalmes', empalmesRoutes); // Registrar la ruta de Empalmes
 app.use('/api/abonados', abonadosRoutes); // Registrar la ruta de Abonados
+app.use('/api/stats', statsRoutes); // Registrar la ruta de estadísticas
 // Ruta raíz
 app.get('/', (req, res) => {
     res.send('API funcionando correctamente'); 

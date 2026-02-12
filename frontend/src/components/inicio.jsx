@@ -6,6 +6,7 @@ import Empalmes from './empalmes';
 import Abonados from './abonados';
 import Usuarios from  './usuarios';
 import LateralBarInicio from './LateralBarInicio';
+import Dashboard from './Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../css/inicio.css';
@@ -13,7 +14,7 @@ import '../css/inicio.css';
 
 const Inicio = () => {
     const navigate = useNavigate();
-    const [activeComponent, setActiveComponent] = useState('');
+    const [activeComponent, setActiveComponent] = useState('Dashboard');
     
     useEffect(() => {
         // Verificar si el token de autenticación está presente
@@ -28,7 +29,7 @@ const Inicio = () => {
 
       // Renderiza dinámicamente el contenido basado en activeComponent
     const renderContent = () => {
-      switch (activeComponent) {
+        switch (activeComponent) {
           case 'Naps':
               return <Naps />;
           case 'Empalmes':
@@ -37,13 +38,10 @@ const Inicio = () => {
               return <Abonados/>;
           case 'Usuarios':
               return <Usuarios/>;
+          case 'Dashboard':
+            return <Dashboard />;
           default:
-              return (
-                  <div>
-                      <h1>Bienvenido al sistema</h1>
-                      <p>Selecciona una opción en la barra lateral para continuar.</p>
-                  </div>
-              );
+            return <Dashboard />;
       }
   };
 

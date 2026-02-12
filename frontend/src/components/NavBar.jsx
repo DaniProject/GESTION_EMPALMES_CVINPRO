@@ -19,7 +19,7 @@ const Navbar = () => {
     <>
     <nav className="navbar navbar-expand-lg bg position-sticky top-0">
       <div className="container-fluid">
-        <img src={require('../images/logo.png')} alt="Logo" className="imgLogo" />
+        <img src={require('../images/logo.png')} alt="Logo" className="imgLogo" style={{ cursor: 'pointer' }} onClick={() => navigate('/inicio')} />
         <button className="navbar-toggler border-0" style={{ filter: 'brightness(100)' }} type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
