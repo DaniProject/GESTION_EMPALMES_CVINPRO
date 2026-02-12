@@ -72,6 +72,8 @@ router.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
     const { rol_usuario, nombre_usuario, user_usuario, pass_usuario} = req.body;
 
+    console.log('Datos recibidos:', { rol_usuario, nombre_usuario, user_usuario, pass_usuario });
+
     if (!user_usuario || !pass_usuario) {
         return res.status(400).json({ message: 'Usuario y contraseña son requeridos' });
     }
@@ -85,15 +87,20 @@ router.post('/register', async (req, res) => {
         const saltRounds = 10;
         const hash = await bcrypt.hash(pass_usuario, saltRounds);
 
+        // Convertir rol_usuario a número si es néceario
+        const rolId = rol_usuario ? parseInt(rol_usuario) : 2;
+
+        console.log('Insertando usuario con rol:', rolId);
+
         const [result] = await db.query(
             'INSERT INTO usuarios (rol_usuario, nombre_usuario, user_usuario, pass_usuario) VALUES (?, ?, ?, ?)',
-            [rol_usuario || 2, nombre_usuario || null, user_usuario, hash]
+            [rolId, nombre_usuario || null, user_usuario, hash]
         );
 
         return res.status(201).json({ message: 'Usuario creado', id: result.insertId });
     } catch (err) {
         console.error('Error creando usuario:', err);
-        return res.status(500).json({ message: 'Error al crear usuario' });
+        return res.status(500).json({ message: 'Error al crear usuario: ' + err.message });
     }
 });
 

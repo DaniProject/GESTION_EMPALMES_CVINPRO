@@ -116,7 +116,12 @@ const Usuarios = () => {
               <form onSubmit={handleRegister}>
                 <div className="form-group">
                   <label>ROL</label>
-                  <input type="text" className="form-control" value={rol} onChange={(e) => setRol(e.target.value)} required />
+                  <select className="form-control" value={rol} onChange={(e) => setRol(e.target.value)} required>
+                    <option value="">Seleccionar rol</option>
+                    <option value="1">Root</option>
+                    <option value="2">Técnico</option>
+                    <option value="3">Directivo</option>
+                  </select>
                 </div>
                 <div className="form-group">
                   <label>NOMBRE COMPLETO</label>
