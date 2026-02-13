@@ -10,14 +10,14 @@ const Naps = () => {
     const navigate = useNavigate();
     const [naps, setNaps] = useState([]); // Estado para almacenar los datos de la tabla naps
     const [error, setError] = useState(null); // Estado para manejar errores
-    const [showForm, setShowForm] = useState(false); // Estado para manejar la visibilidad del formulario
+    // const [showForm, setShowForm] = useState(false); // Estado para manejar la visibilidad del formulario
     const [searchTerm, setSearchTerm] = useState(''); // Estado para manejar el término de búsqueda
     const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
     const [diagramData, setDiagramData] = useState([]); // Estado para almacenar los datos del diagrama
     const [selectedNap, setSelectedNap] = useState(null); // Estado para almacenar el NAP seleccionado
     const [newNap, setNewNap] = useState({
         codigo_nap: '', 
-        gps_lat: '',
+        gps_lat: '', 
         gps_lng: '',
         cable: '', 
         mufa: '',
@@ -64,7 +64,6 @@ const Naps = () => {
 
             const savedNap = response.data;
             setNaps([...naps, savedNap]); // Agregar el nuevo NAP a la lista
-            setShowForm(false); // Ocultar el formulario
             setNewNap({ // Reiniciar el formulario
                 codigo_nap: '',
                 gps_lat: '',

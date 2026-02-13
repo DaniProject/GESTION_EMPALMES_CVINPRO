@@ -8,7 +8,7 @@ import axiosInstance from '../api/axiosConfig';
 
 const Abonados = () => {   
     const navigate = useNavigate();
-    const [error, setError] = useState(null); // Estado para manejar errores
+    const [, setError] = useState(null); // Estado para manejar errores
     const [abonados, setAbonados] = React.useState([]); // Estado para almacenar los empalmes
     const [trackingData, setTrackingData] = useState(null); // Estado para almacenar los datos de tracking
     const [showModal, setShowModal] = useState(false); // Estado para controlar el modal
@@ -20,9 +20,21 @@ const Abonados = () => {
         fecha_alta: '',
         estado: 'Activo'
     });
-    const filteredAbonados = abonados.filter(abonados => abonados.id_abonado !== null); // Filtrar los empalmes que tienen id_nap
     const rol =localStorage.getItem('rol'); // Obtener el rol del usuario desde localStorage
     const rolDep = rol === '1';// Verificar si el rol es "Root"
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredAbonados = abonados
+        .filter(abonados => abonados.id_abonado !== null) // Filtrar los empalmes que tienen id_abonado
+        .filter(abonados => {
+            // Filtrar por búsqueda
+            const searchLower = searchTerm.toLowerCase();
+            return (
+                abonados.nombre_abonado.toLowerCase().includes(searchLower) ||
+                abonados.codigo_abonado.toLowerCase().includes(searchLower) ||
+                abonados.servicio.toLowerCase().includes(searchLower)
+            );
+        }); 
 
     useEffect(() => {
         // Verificar si el token de autenticación está presente
@@ -113,7 +125,13 @@ const Abonados = () => {
             </button>
             )}
         </div>
-
+        <input
+                type="text"
+                placeholder="Buscar..."
+                className="form-control form-control.search-input my-3"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />      
         <div className="table-responsive">
             <table className="table table-striped table-hover">
                 <thead className="table-light">
