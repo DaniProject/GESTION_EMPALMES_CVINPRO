@@ -292,7 +292,7 @@ const Abonados = () => {
                                         >
                                             <option value="">Selecciona un servicio</option>
                                             <option value="Internet">Internet</option>
-                                            <option value="TV">TV FTTH</option>
+                                            <option value="TV FTTH">TV FTTH</option>
                                             <option value="Internet + TV">Internet + TV FTTH</option>
                                         </select>
                                     </div>

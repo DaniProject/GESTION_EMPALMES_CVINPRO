@@ -6,7 +6,7 @@ import axiosInstance from '../api/axiosConfig';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    nombre_usuario: '',
+    user_usuario: '',
     pass_usuario: ''
   });
 
@@ -64,8 +64,8 @@ const Login = () => {
           <div className="inputBox">
             <input
               type="text"
-              name="nombre_usuario"
-              value={formData.nombre_usuario}
+              name="user_usuario"
+              value={formData.user_usuario}
               onChange={handleChange}
               required
             />

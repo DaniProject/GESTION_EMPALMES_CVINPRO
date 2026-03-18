@@ -22,10 +22,13 @@ router.get('/', async (req, res) => {
 
 // Endpoint para el login
 router.post('/login', async (req, res) => {
-    const { nombre_usuario, pass_usuario } = req.body;
-    console.log('Login attempt for user:', nombre_usuario);
+    const { user_usuario, pass_usuario } = req.body;
+    console.log('Login attempt - Body recibido:', req.body);
+    console.log('Login attempt - user_usuario:', user_usuario);
+    console.log('Login attempt - pass_usuario:', pass_usuario);
 
-    if (!nombre_usuario || !pass_usuario) {
+    if (!user_usuario || !pass_usuario) {
+        console.log('Error: Faltan datos (user_usuario o pass_usuario)');
         return res.status(400).json({ message: 'Usuario y contraseña son requeridos' });
     }
 
@@ -39,15 +42,22 @@ router.post('/login', async (req, res) => {
                 r.nombre_rol AS rol_nombre 
                 FROM usuarios u 
                 JOIN roles r ON u.rol_usuario = r.id_roles 
-                WHERE u.user_usuario = ?`, [nombre_usuario]);
+                WHERE u.user_usuario = ?`, [user_usuario]);
+        
+        console.log('Query result:', rows);
+        
         if (rows.length === 0) {
+            console.log('Error: Usuario no encontrado -', user_usuario);
             return res.status(400).json({ message: 'Usuario no encontrado' });
         }
 
         const user = rows[0];
         // Comparar contraseña con hash almacenado
         const match = await bcrypt.compare(pass_usuario, user.pass_usuario);
+        console.log('Contraseña match:', match);
+        
         if (!match) {
+            console.log('Error: Contraseña incorrecta para usuario', user_usuario);
             return res.status(400).json({ message: 'Credenciales incorrectas' });
         }
 

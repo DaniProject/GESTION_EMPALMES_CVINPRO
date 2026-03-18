@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -12,7 +12,6 @@ const Navbar = () => {
     navigate('/');
   };
 
-  const isAdmin = localStorage.getItem('rol') === '1';
   const user = localStorage.getItem('nombre_usuario');
 
   return (
