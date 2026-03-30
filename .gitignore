@@ -6,6 +6,7 @@ backend/node_modules/
 
 # Frontend
 frontend/node_modules/
+frontend/build/
 
 # Variables sensibles
 .env
