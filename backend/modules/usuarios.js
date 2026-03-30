@@ -103,7 +103,7 @@ router.post('/register', async (req, res) => {
         console.log('Insertando usuario con rol:', rolId);
 
         const [result] = await db.query(
-            'INSERT INTO gestion_cajasnap.usuarios (id_usuario, rol_usuario, nombre_usuario, user_usuario, pass_usuario) VALUES (null, ?, ?, ?, ?)',
+            'INSERT INTO gestion_cajasnap.usuarios (rol_usuario, nombre_usuario, user_usuario, pass_usuario) VALUES (?, ?, ?, ?)',
             [rolId, nombre_usuario || null, user_usuario, hash]
         );
 

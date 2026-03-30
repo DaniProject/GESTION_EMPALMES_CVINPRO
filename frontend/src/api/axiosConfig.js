@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json"
   }
 });
-
+  
 // Agregar token a cada solicitud
 axiosInstance.interceptors.request.use(
   (config) => {

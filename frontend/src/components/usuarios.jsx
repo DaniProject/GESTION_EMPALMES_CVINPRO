@@ -18,6 +18,24 @@ const Usuarios = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+
+        // Validaciones frontend
+        if (nombre.length > 50) {
+            alert('No se permiten nombres tan largos, abreviar');
+            return;
+        }
+
+        if (password.length > 8) {
+            alert('La contraseña debe tener máximo 8 caracteres');
+            return;
+        }
+
+        const passwordRegex = /^[a-zA-Z0-9]+$/;
+        if (!passwordRegex.test(password)) {
+            alert('La contraseña solo puede contener letras y números');
+            return;
+        }
+
         try {
           const response = await axios.post('/api/usuarios/register', {
             rol_usuario: rol,
@@ -123,9 +141,8 @@ const Usuarios = () => {
                   <label>ROL</label>
                   <select className="form-control" value={rol} onChange={(e) => setRol(e.target.value)} required>
                     <option value="">Seleccionar rol</option>
-                    <option value="1">Root</option>
-                    <option value="2">Técnico</option>
-                    <option value="3">Directivo</option>
+                    <option value="1">Admin</option>
+                    <option value="2">Regular</option>
                   </select>
                 </div>
                 <div className="form-group">
